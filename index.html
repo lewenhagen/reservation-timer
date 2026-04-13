@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Room Schedule</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap');
 
@@ -13,11 +14,11 @@
     --bg: #000;
     --fg: #fff;
     --accent: #00ff88;
-    --dim: #444;
+    --dim: #777;
     --warn: #ffaa00;
     --danger: #ff3333;
     --room-bg: #0a0a0a;
-    --room-border: #1a1a1a;
+    --room-border: #2a2a2a;
     --mono: 'Share Tech Mono', monospace;
     --display: 'Bebas Neue', sans-serif;
     --body: 'Inter', sans-serif;
@@ -63,7 +64,7 @@
 
   #clock {
     font-family: var(--display);
-    font-size: clamp(4rem, 14vw, 13rem);
+    font-size: clamp(6rem, 24vw, 26rem);
     line-height: 1;
     letter-spacing: .04em;
     color: var(--fg);
@@ -73,7 +74,7 @@
 
   #date-line {
     font-family: var(--mono);
-    font-size: clamp(.7rem, 1.4vw, 1.1rem);
+    font-size: clamp(.85rem, 1.7vw, 1.3rem);
     color: var(--dim);
     letter-spacing: .15em;
     text-align: center;
@@ -112,7 +113,7 @@
     border: 1px solid var(--dim);
     color: var(--dim);
     font-family: var(--mono);
-    font-size: .75rem;
+    font-size: .9rem;
     letter-spacing: .1em;
     padding: .4rem .9rem;
     cursor: pointer;
@@ -122,7 +123,7 @@
   .ctrl-btn:hover        { border-color: var(--accent); color: var(--accent); }
   .ctrl-btn.active       { border-color: var(--accent); color: var(--accent); }
 
-  #advance-btn           { border-color: #333; color: #555; font-size: .7rem; }
+  #advance-btn           { border-color: #444; color: #666; font-size: .85rem; }
   #advance-btn:hover     { border-color: var(--warn); color: var(--warn); }
   #advance-btn.shifted   { border-color: var(--warn); color: var(--warn); }
 
@@ -176,7 +177,7 @@
 
   .room-name {
     font-family: var(--display);
-    font-size: clamp(1.2rem, 3.5vw, 2.8rem);
+    font-size: clamp(1.5rem, 4.2vw, 3.4rem);
     letter-spacing: .06em;
     color: var(--fg);
     line-height: 1;
@@ -186,14 +187,14 @@
 
   .slot-label {
     font-family: var(--mono);
-    font-size: clamp(.6rem, 1.1vw, .85rem);
+    font-size: clamp(.75rem, 1.3vw, 1rem);
     letter-spacing: .12em;
     color: var(--dim);
     text-transform: uppercase;
   }
 
   .current-event {
-    font-size: clamp(.85rem, 1.8vw, 1.35rem);
+    font-size: clamp(1.05rem, 2.2vw, 1.65rem);
     font-weight: 600;
     color: var(--accent);
     line-height: 1.2;
@@ -201,7 +202,7 @@
 
   .current-time-slot {
     font-family: var(--mono);
-    font-size: clamp(.7rem, 1.2vw, .95rem);
+    font-size: clamp(.85rem, 1.4vw, 1.15rem);
     color: #555;
   }
 
@@ -224,7 +225,7 @@
 
   .remaining {
     font-family: var(--mono);
-    font-size: clamp(.65rem, 1.1vw, .9rem);
+    font-size: clamp(.8rem, 1.3vw, 1.1rem);
     color: var(--dim);
   }
   .remaining span            { color: var(--fg); font-weight: 600; }
@@ -233,17 +234,17 @@
 
   .next-label {
     font-family: var(--mono);
-    font-size: clamp(.55rem, .95vw, .78rem);
+    font-size: clamp(.7rem, 1.15vw, .95rem);
     letter-spacing: .1em;
     color: var(--dim);
     text-transform: uppercase;
     margin-top: .3rem;
   }
-  .next-event { font-size: clamp(.75rem, 1.4vw, 1.05rem); color: #888; line-height: 1.2; }
+  .next-event { font-size: clamp(.9rem, 1.7vw, 1.3rem); color: #999; line-height: 1.2; }
 
   .free-text {
     font-family: var(--mono);
-    font-size: clamp(.9rem, 1.8vw, 1.3rem);
+    font-size: clamp(1.05rem, 2.1vw, 1.55rem);
     color: #333;
     letter-spacing: .1em;
   }
@@ -316,7 +317,6 @@
 
     <div id="clock-col">
       <div id="clock">00:00:00</div>
-      <div id="date-line">—</div>
       <div id="offset-indicator">▲ ADVANCED +0 SLOTS</div>
     </div>
 
@@ -633,15 +633,10 @@ function updateRooms() {
 }
 
 /* ── Clock ──────────────────────────────────────────────── */
-const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
 function updateClock() {
   const now = new Date();
   document.getElementById('clock').textContent =
     `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-  document.getElementById('date-line').textContent =
-    `${DAYS[now.getDay()].toUpperCase()}  ·  ${now.getDate()} ${MONTHS[now.getMonth()].toUpperCase()} ${now.getFullYear()}`;
 }
 
 /* ── Tick ───────────────────────────────────────────────── */
