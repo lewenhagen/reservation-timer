@@ -657,12 +657,12 @@
         card.innerHTML = `
       <div class="room-name">${name}</div>
       <div class="divider"></div>
-      <div class="slot-label">CURRENT</div>
+      <div class="slot-label">NUVARANDE</div>
       <div class="current-event free-text">FREE</div>
       <div class="current-time-slot"></div>
       <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
       <div class="remaining"></div>
-      <div class="next-label">NEXT UP</div>
+      <div class="next-label">NÄSTA</div>
       <div class="next-event">—</div>
     `;
         container.appendChild(card);
@@ -760,7 +760,7 @@
         if (beforeSchedule) {
           // Show as UPCOMING — dim styling, no active glow
           card.classList.remove('active');
-          slotLbl.textContent = 'UPCOMING';
+          slotLbl.textContent = 'NÄSTA';
           if (currentEvent) {
             evEl.className = 'current-event';
             evEl.style.opacity = '0.45';
@@ -773,7 +773,7 @@
             tsEl.textContent = schedule[0].timeStr;
           }
         } else {
-          slotLbl.textContent = 'CURRENT';
+          slotLbl.textContent = 'NUVARANDE';
           evEl.style.opacity = '1';
           const isActive = !!currentEvent;
           card.classList.toggle('active', isActive);
